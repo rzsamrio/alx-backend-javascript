@@ -1,20 +1,18 @@
-const readline = require('readline');
+process.stdin.setEncoding('utf8');
 
-const prompt1 = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+process.stdout.write('Welcome to Holberton School, what is your name?\n');
 
-prompt1.question('Welcome to Holberton School, what is your name?\n', (name) => {
-  console.log(`Your name is: ${name}`);
-  if (process.stdin.isTTY) {
+if (process.stdin.isTTY) {
+  process.stdin.on('data', (name) => {
+    process.stdout.write(`Your name is: ${name.toString()}`);
     process.exit();
-  } else {
-    prompt1.close();
-  }
-});
-
-prompt1.on('close', () => {
-  console.log('This important software is now closing');
-  process.exit();
-});
+  });
+} else {
+  process.stdin.on('data', (name) => {
+    process.stdout.write(`Your name is: ${name.toString()}`);
+    process.exit();
+  });
+  process.on('exit', () => {
+    process.stdout.write('This important software is now closing\n');
+  });
+}
